@@ -1,0 +1,142 @@
+// stockpot ドメインモデル（設計書 §12）
+// Prisma 7: Rust バイナリ撤廃版。
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Prisma 7: 接続 URL は schema から prisma.config.ts + driver adapter へ移動した。
+datasource db {
+  provider = "postgresql"
+}
+
+enum StorageType {
+  PANTRY // 常温
+  FRIDGE // 冷蔵
+  FREEZER // 冷凍
+}
+
+enum ExpiryType {
+  BEST_BEFORE // 賞味期限
+  CONSUME_BY // 消費期限
+}
+
+enum Unit {
+  PIECE
+  GRAM
+  MILLILITER
+  PACK
+  BUNCH
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+}
+
+enum EffortMode {
+  EASY // お手軽
+  ELABORATE // 本格
+}
+
+enum CookMethod {
+  PREP
+  STOVE
+  MICROWAVE
+  OVEN
+  TOASTER
+  THAW
+  NONE
+}
+
+model User {
+  id          String   @id @default(cuid())
+  authUid     String   @unique // Firebase UID
+  email       String
+  displayName String?
+  createdAt   DateTime @default(now())
+
+  items    InventoryItem[]
+  recipes  Recipe[]
+  cookLogs CookLog[]
+}
+
+model InventoryItem {
+  id          String      @id @default(cuid())
+  userId      String
+  name        String
+  storageType StorageType // ← カンバンの列
+  quantity    Decimal     @db.Decimal(10, 2)
+  unit        Unit
+  expiryDate  DateTime?   @db.Date
+  expiryType  ExpiryType?
+  note        String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, storageType])
+  @@index([userId, expiryDate])
+}
+
+model Recipe {
+  id           String     @id @default(cuid())
+  userId       String
+  title        String
+  description  String?
+  mealType     MealType
+  effortMode   EffortMode
+  estimatedMin Int?
+  isFavorite   Boolean    @default(false)
+  cookedCount  Int        @default(0)
+  lastCookedAt DateTime?
+  createdAt    DateTime   @default(now())
+
+  steps       RecipeStep[]
+  ingredients RecipeIngredient[]
+  cookLogs    CookLog[]
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isFavorite])
+  @@index([userId, mealType])
+  @@index([userId, createdAt])
+}
+
+model RecipeStep {
+  id          String     @id @default(cuid())
+  recipeId    String
+  order       Int
+  instruction String
+  method      CookMethod @default(NONE) // アイコン表示用
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([recipeId, order])
+}
+
+model RecipeIngredient {
+  id             String   @id @default(cuid())
+  recipeId       String
+  name           String // ★ 生成時点のスナップショット（在庫への FK にしない）
+  amountText     String // 表示用: "200g" / "適量"
+  deductQuantity Decimal? @db.Decimal(10, 2) // 減算用。不明なら null
+  deductUnit     Unit?
+  sourceItemId   String? // 生成時に参照した在庫 ID（FK ではない任意リンク）
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+}
+
+model CookLog {
+  id         String   @id @default(cuid())
+  userId     String
+  recipeId   String
+  cookedAt   DateTime @default(now())
+  deductions Json // 実際に減らした内容の記録
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@index([userId, cookedAt])
+}
