@@ -1,0 +1,26 @@
+{
+  "name": "stockpot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "冷蔵庫の在庫をカンバンで管理し、在庫に基づいた AI レシピ提案を行う Web アプリ",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "vitest run --exclude '**/*.int.test.ts'",
+    "test:int": "vitest run '**/*.int.test.ts'",
+    "test:watch": "vitest --exclude '**/*.int.test.ts'",
+    "test:coverage": "vitest run --coverage --exclude '**/*.int.test.ts'"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "catalog:",
+    "turbo": "^2.3.3",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

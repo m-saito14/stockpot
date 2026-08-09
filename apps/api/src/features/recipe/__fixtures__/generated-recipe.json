@@ -1,0 +1,66 @@
+{
+  "recipes": [
+    {
+      "title": "豚こまと白菜の味噌炒め",
+      "description": "冷凍豚こまを解凍して白菜と炒める一皿。",
+      "estimatedMin": 18,
+      "ingredients": [
+        {
+          "name": "豚こま肉",
+          "amountText": "200g",
+          "sourceItemId": "itm_a1",
+          "deductQuantity": 200,
+          "deductUnit": "GRAM"
+        },
+        {
+          "name": "味噌",
+          "amountText": "適量",
+          "sourceItemId": null,
+          "deductQuantity": null,
+          "deductUnit": null
+        }
+      ],
+      "steps": [
+        { "order": 1, "instruction": "豚こま肉を解凍する", "method": "THAW" },
+        { "order": 2, "instruction": "白菜を切る", "method": "PREP" },
+        { "order": 3, "instruction": "フライパンで炒める", "method": "STOVE" }
+      ]
+    },
+    {
+      "title": "卵とほうれん草の炒め物",
+      "description": "期限間近の卵を使い切る一品。",
+      "estimatedMin": 12,
+      "ingredients": [
+        {
+          "name": "卵",
+          "amountText": "2個",
+          "sourceItemId": "itm_b1",
+          "deductQuantity": 2,
+          "deductUnit": "PIECE"
+        }
+      ],
+      "steps": [
+        { "order": 1, "instruction": "卵を溶く", "method": "PREP" },
+        { "order": 2, "instruction": "炒める", "method": "STOVE" }
+      ]
+    },
+    {
+      "title": "玉ねぎのレンジ蒸し",
+      "description": "常温の玉ねぎを電子レンジで加熱するだけ。",
+      "estimatedMin": 8,
+      "ingredients": [
+        {
+          "name": "玉ねぎ",
+          "amountText": "1個",
+          "sourceItemId": "itm_c1",
+          "deductQuantity": 1,
+          "deductUnit": "PIECE"
+        }
+      ],
+      "steps": [
+        { "order": 1, "instruction": "玉ねぎを耐熱皿に入れる", "method": "PREP" },
+        { "order": 2, "instruction": "電子レンジで加熱する", "method": "MICROWAVE" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# ローカル / テスト用 PostgreSQL（設計書 §18.9: Testcontainers は使わない）
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: stockpot-postgres
+    environment:
+      POSTGRES_USER: stockpot
+      POSTGRES_PASSWORD: stockpot
+      POSTGRES_DB: stockpot
+    ports:
+      - "5432:5432"
+    volumes:
+      - stockpot-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stockpot"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  stockpot-pg:

@@ -1,0 +1,73 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git branch*)",
+      "Bash(git show*)",
+      "Bash(git stash list)",
+      "Bash(pnpm install)",
+      "Bash(pnpm test*)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm build)",
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm --filter*)",
+      "Bash(pnpm exec*)",
+      "Bash(node --version)",
+      "Bash(pnpm --version)",
+      "Bash(ls*)",
+      "Bash(lsof*)",
+      "Bash(docker ps*)",
+      "Bash(docker compose ps*)",
+      "Bash(docker compose up -d*)",
+      "Bash(colima status)",
+      "Bash(gh pr create*)",
+      "Bash(gh pr view*)",
+      "Bash(gh pr list*)",
+      "Bash(git push*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash(git push*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "branch=$(git branch --show-current 2>/dev/null); if [ \"$branch\" = 'main' ] || [ \"$branch\" = 'develop' ]; then echo \"[BLOCKED] $branch ブランチへの直接プッシュは禁止です。feature/* または fix/* ブランチを使用してください。\" >&2; exit 2; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(git commit*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '=== コミット前チェック（CLAUDE.md / 設計書 §3・§18） ===\n1. 2 境界: domain/application に @prisma/client / ai の型を漏らしていないか\n2. 横展開: 変更した enum / Zod スキーマ / パターンの検索漏れがないか\n3. 認可: リポジトリ操作が where { id, userId } で絞られ、他ユーザーは 404 か\n4. 機密情報: Firebase 秘密鍵 / API キーのハードコード・.env 混入がないか\n5. LLM 課金: 在庫 0 件で LLM を叩かない実装が壊れていないか\n6. テスト: 対応テストが存在し pnpm test が通るか\n7. README/CLAUDE: 変更に対応する更新が不要か\n=== 未確認があれば先に対応してください ==='"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash(pnpm test*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '=== テスト完了 ===\n通った場合: /commit でコミット前チェックに進めます\n失敗した場合: 失敗テストを修正してから再実行してください（DB 依存は pnpm test:int / docker compose up -d）'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(gh pr create*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '=== PR 作成完了 ===\nbase は develop です。CI（typecheck / test）の結果と PR URL を確認してください。'"
+          }
+        ]
+      }
+    ]
+  }
+}
