@@ -36,6 +36,7 @@ stockpot/
 pnpm test              # ユニット（*.int.test.ts を除外）
 pnpm test:int          # 統合（実 DB 必要）
 pnpm typecheck         # 型チェック
+pnpm check             # lint + format + import 整列（Biome。--fix は check:fix）
 pnpm build             # ビルド
 
 # API（apps/api）

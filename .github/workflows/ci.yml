@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+# 同一ブランチで新しい push があれば実行中の CI をキャンセルする
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # generate は接続しないがダミーを渡しておく
+  DATABASE_URL: "postgresql://stockpot:stockpot@localhost:5432/stockpot"
+
+jobs:
+  quality:
+    name: Lint & Format (Biome)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # pnpm のバージョンは package.json の "packageManager" を採用する
+      # （version: を指定すると packageManager と二重指定になり失敗する）
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # lint + format + import 整列をまとめて検証（書き込みはしない）
+      - name: Biome CI
+        run: pnpm run ci:quality
+
+  typecheck-test:
+    name: Typecheck & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # pnpm のバージョンは package.json の "packageManager" を採用する
+      # （version: を指定すると packageManager と二重指定になり失敗する）
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # typecheck は @prisma/client の生成型に依存するため先に generate する
+      - name: Generate Prisma Client
+        run: pnpm --filter @stockpot/api prisma:generate
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test

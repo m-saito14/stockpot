@@ -1,6 +1,6 @@
 import type { EffortMode, MealType } from "@stockpot/shared";
-import type { InventoryRepository } from "../../inventory/domain/inventory-repository.js";
 import type { InventoryItem } from "../../inventory/domain/inventory-item.js";
+import type { InventoryRepository } from "../../inventory/domain/inventory-repository.js";
 import type {
   InventorySnapshotItem,
   RecipeGenerator,

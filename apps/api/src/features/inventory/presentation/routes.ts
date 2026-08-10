@@ -1,20 +1,20 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import {
-  CreateInventoryItemSchema,
-  StorageTypeSchema,
-  UpdateInventoryItemSchema,
   type CreateInventoryItemInput,
+  CreateInventoryItemSchema,
   type StorageType,
+  StorageTypeSchema,
   type UpdateInventoryItemInput,
+  UpdateInventoryItemSchema,
 } from "@stockpot/shared";
 import type { AuthVariables } from "../../../shared/auth/middleware.js";
 import { authMiddleware } from "../../../shared/auth/middleware.js";
-import type { InventoryRepository } from "../domain/inventory-repository.js";
 import type {
   InventoryItem,
   NewInventoryItem,
   UpdateInventoryFields,
 } from "../domain/inventory-item.js";
+import type { InventoryRepository } from "../domain/inventory-repository.js";
 
 const ItemResponseSchema = z
   .object({

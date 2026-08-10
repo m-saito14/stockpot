@@ -1,7 +1,7 @@
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
-import { verifyIdToken } from "./firebase.js";
 import { prisma } from "../db/prisma.js";
+import { type VerifiedUser, verifyIdToken } from "./firebase.js";
 
 /**
  * 認証ミドルウェア（設計書 §9 / §17）。
@@ -21,7 +21,7 @@ export const authMiddleware = createMiddleware<{ Variables: AuthVariables }>(
     }
     const idToken = header.slice("Bearer ".length);
 
-    let verified;
+    let verified: VerifiedUser;
     try {
       verified = await verifyIdToken(idToken);
     } catch {

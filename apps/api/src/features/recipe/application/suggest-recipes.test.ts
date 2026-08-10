@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-import { InMemoryInventoryRepository } from "../../inventory/infrastructure/in-memory-inventory-repository.js";
 import type { InventoryItem } from "../../inventory/domain/inventory-item.js";
-import { StubRecipeGenerator } from "../infrastructure/stub-generator.js";
+import { InMemoryInventoryRepository } from "../../inventory/infrastructure/in-memory-inventory-repository.js";
 import type { RecipeRepository } from "../domain/recipe-repository.js";
 import type { NewRecipe, Recipe } from "../domain/recipe.js";
-import { SuggestRecipes } from "./suggest-recipes.js";
+import { StubRecipeGenerator } from "../infrastructure/stub-generator.js";
 import { EmptyInventoryError } from "./errors.js";
+import { SuggestRecipes } from "./suggest-recipes.js";
 
 const USER = "user_1";
 

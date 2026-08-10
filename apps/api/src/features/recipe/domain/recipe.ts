@@ -1,9 +1,4 @@
-import type {
-  CookMethod,
-  EffortMode,
-  MealType,
-  Unit,
-} from "@stockpot/shared";
+import type { CookMethod, EffortMode, MealType, Unit } from "@stockpot/shared";
 
 /**
  * レシピのドメインエンティティ。

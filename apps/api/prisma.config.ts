@@ -1,6 +1,6 @@
 import path from "node:path";
-import { defineConfig } from "prisma/config";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { defineConfig } from "prisma/config";
 
 /**
  * Prisma 7 の設定ファイル。接続 URL は schema からここへ移動した。
@@ -12,6 +12,5 @@ export default defineConfig({
   migrations: {
     path: path.join("prisma", "migrations"),
   },
-  adapter: async () =>
-    new PrismaPg({ connectionString: process.env.DATABASE_URL ?? "" }),
+  adapter: async () => new PrismaPg({ connectionString: process.env.DATABASE_URL ?? "" }),
 });

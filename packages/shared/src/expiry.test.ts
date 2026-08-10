@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { getExpiryStatus, type ExpiryStatus } from "./expiry.js";
 import type { ExpiryType } from "./enums.js";
+import { type ExpiryStatus, getExpiryStatus } from "./expiry.js";
 
 const TODAY = new Date("2026-08-10T09:00:00Z");
 
@@ -23,9 +23,9 @@ describe("getExpiryStatus", () => {
     ["BEST_BEFORE", 3, "WARNING"], // 境界: 3 日
     ["BEST_BEFORE", 10, "NORMAL"], // 十分先 → 通常
   ])("%s / %d日後 → %s", (expiryType, days, expected) => {
-    expect(
-      getExpiryStatus({ expiryType, expiryDate: dateAfter(days) }, TODAY),
-    ).toBe(expected);
+    expect(getExpiryStatus({ expiryType, expiryDate: dateAfter(days) }, TODAY)).toBe(
+      expected,
+    );
   });
 
   it("期限日がなければ NONE", () => {

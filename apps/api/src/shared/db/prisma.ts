@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "@prisma/client";
 
 /**
  * PrismaClient のシングルトン。
@@ -7,7 +7,6 @@ import { PrismaPg } from "@prisma/adapter-pg";
  * 設計書 §8: Cloud Run では DB プールをインスタンスあたり 2〜5 に絞る。
  */
 declare global {
-  // eslint-disable-next-line no-var
   var __prisma__: PrismaClient | undefined;
 }
 

@@ -54,8 +54,7 @@ export function buildCookPlan(
       };
     }
 
-    const canSuggest =
-      ing.deductQuantity != null && ing.deductUnit === item.unit;
+    const canSuggest = ing.deductQuantity != null && ing.deductUnit === item.unit;
 
     return {
       ingredientId: ing.ingredientId,

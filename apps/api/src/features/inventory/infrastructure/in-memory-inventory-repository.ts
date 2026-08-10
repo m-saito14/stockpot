@@ -1,9 +1,9 @@
-import type { InventoryRepository } from "../domain/inventory-repository.js";
 import type {
   InventoryItem,
   NewInventoryItem,
   UpdateInventoryFields,
 } from "../domain/inventory-item.js";
+import type { InventoryRepository } from "../domain/inventory-repository.js";
 
 /**
  * テスト用・ローカル開発用のインメモリ実装。

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
-  buildCookPlan,
   type CookPlanIngredient,
   type CurrentInventoryItem,
+  buildCookPlan,
 } from "./cook-plan.js";
 
 const inventory: CurrentInventoryItem[] = [
@@ -95,7 +95,13 @@ describe("buildCookPlan", () => {
 
   it("在庫が削除済み（sourceItemId は指すが在庫に無い）→ NOT_FOUND", () => {
     const [plan] = buildCookPlan(
-      [ingredient({ sourceItemId: "itm_deleted", deductQuantity: 100, deductUnit: "GRAM" })],
+      [
+        ingredient({
+          sourceItemId: "itm_deleted",
+          deductQuantity: 100,
+          deductUnit: "GRAM",
+        }),
+      ],
       inventory,
     );
 
@@ -105,7 +111,12 @@ describe("buildCookPlan", () => {
   it("複数材料をまとめて分類できる", () => {
     const plan = buildCookPlan(
       [
-        ingredient({ ingredientId: "a", sourceItemId: "itm_a1", deductQuantity: 100, deductUnit: "GRAM" }),
+        ingredient({
+          ingredientId: "a",
+          sourceItemId: "itm_a1",
+          deductQuantity: 100,
+          deductUnit: "GRAM",
+        }),
         ingredient({ ingredientId: "b", sourceItemId: "itm_d1" }),
         ingredient({ ingredientId: "c", sourceItemId: null }),
       ],

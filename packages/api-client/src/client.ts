@@ -1,5 +1,5 @@
-import { hc } from "hono/client";
 import type { Hono } from "hono";
+import { hc } from "hono/client";
 
 /**
  * ★ hc ラッパー（設計書 §5）。

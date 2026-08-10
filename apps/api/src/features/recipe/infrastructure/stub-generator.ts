@@ -1,8 +1,8 @@
-import type { NewRecipe } from "../domain/recipe.js";
 import type {
   GenerateRecipesParams,
   RecipeGenerator,
 } from "../domain/recipe-generator.js";
+import type { NewRecipe } from "../domain/recipe.js";
 
 /**
  * スタブの RecipeGenerator（設計書 §18.4）。

@@ -1,7 +1,7 @@
 import type { EffortMode, MealType } from "@stockpot/shared";
-import type { NewRecipe, Recipe } from "./recipe.js";
-import type { Deduction } from "./deduction.js";
 import type { CookPlanIngredient } from "./cook-plan.js";
+import type { Deduction } from "./deduction.js";
+import type { NewRecipe, Recipe } from "./recipe.js";
 
 /** GET /recipes のフィルタ・ソート（設計書 §14）。 */
 export interface RecipeQuery {

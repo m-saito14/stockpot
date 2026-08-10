@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { applyStep, stepFor } from "./quantity.js";
 import type { Unit } from "./enums.js";
+import { applyStep, stepFor } from "./quantity.js";
 
 describe("stepFor", () => {
   it.each<[Unit, number]>([

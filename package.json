@@ -10,7 +10,11 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "ci:quality": "biome ci .",
     "typecheck": "turbo run typecheck",
     "test": "vitest run --exclude '**/*.int.test.ts'",
     "test:int": "vitest run '**/*.int.test.ts'",
@@ -18,6 +22,7 @@
     "test:coverage": "vitest run --coverage --exclude '**/*.int.test.ts'"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@vitest/coverage-v8": "catalog:",
     "turbo": "^2.3.3",
     "typescript": "catalog:",
