@@ -1,4 +1,7 @@
 import type { ReactNode } from "react";
+import { AppHeader } from "../components/app-header";
+import { Providers } from "../lib/providers";
+import "./globals.css";
 
 export const metadata = {
   title: "stockpot",
@@ -8,7 +11,12 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body>
+        <Providers>
+          <AppHeader />
+          <main className="mx-auto max-w-6xl px-4 py-6">{children}</main>
+        </Providers>
+      </body>
     </html>
   );
 }

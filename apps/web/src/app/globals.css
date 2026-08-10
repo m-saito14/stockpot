@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+/*
+ * デザイントークン（設計書 §13）。
+ * 期限バッジの色は getExpiryStatus の戻り値に対応させる:
+ *   EXPIRED/URGENT → danger, WARNING → warning, NORMAL → muted
+ */
+@theme {
+  --color-brand-50: #f0fdf4;
+  --color-brand-100: #dcfce7;
+  --color-brand-500: #16a34a;
+  --color-brand-600: #15803d;
+  --color-brand-700: #166534;
+
+  --color-danger: #dc2626;
+  --color-danger-soft: #fee2e2;
+  --color-warning: #ca8a04;
+  --color-warning-soft: #fef9c3;
+
+  --color-pantry: #f59e0b;
+  --color-fridge: #3b82f6;
+  --color-freezer: #06b6d4;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: #f8fafc;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+  font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP",
+    sans-serif;
+}
+
+/* スケルトンのシマー（設計書 §13.2: 段階表示 + スケルトン UI） */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 37%, #e2e8f0 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
