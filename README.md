@@ -106,6 +106,25 @@ USE_STUB_LLM=true
 
 ---
 
+## フロントエンド（apps/web）
+
+Next.js（App Router）+ Tailwind CSS v4。純粋な View として扱い、データの読み書きは
+必ず Hono API 経由（`packages/api-client` の hc ラッパー seam + React Query）。
+
+| 画面 | パス | 設計書 |
+|---|---|---|
+| カンバン（在庫 + 生成トリガー） | `/` | §13.1 / §13.2 |
+| レシピ一覧（フィルタ / ソート / ⭐️） | `/recipes` | §13.3 |
+| レシピ詳細（手順アイコン + 調理確定モーダル） | `/recipes/[id]` | §13.4 / §13.5 |
+| 認証（ログイン / 登録 / 再設定） | 未ログイン時に全画面 | §13.6 |
+
+- カンバンの列またぎ D&D は **dnd-kit**（`@dnd-kit/core`）。期限バッジ・± 刻み幅は
+  `packages/shared` の純粋関数を UI から呼ぶ（設計書 §18.7）。
+- 認証は Firebase クライアント SDK。ブラウザに露出する公開設定のみ
+  `NEXT_PUBLIC_FIREBASE_*` に設定する（秘密鍵はサーバー側の `FIREBASE_PRIVATE_KEY`）。
+
+---
+
 ## よく使うコマンド
 
 ```bash
