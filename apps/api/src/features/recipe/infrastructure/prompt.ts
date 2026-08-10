@@ -30,9 +30,7 @@ function formatItem(item: InventorySnapshotItem, today: Date): string {
     const label = item.expiryType === "CONSUME_BY" ? "消費期限" : "賞味期限";
     const iso = item.expiryDate.toISOString().slice(0, 10);
     let line = `（${label}: ${iso}）`;
-    const days = Math.floor(
-      (item.expiryDate.getTime() - today.getTime()) / 86_400_000,
-    );
+    const days = Math.floor((item.expiryDate.getTime() - today.getTime()) / 86_400_000);
     if (days <= 3) line += " ★期限間近";
     parts.push(line);
   }

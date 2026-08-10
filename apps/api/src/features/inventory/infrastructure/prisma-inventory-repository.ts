@@ -1,11 +1,11 @@
 import type { PrismaClient, InventoryItem as PrismaItem } from "@prisma/client";
-import type { InventoryRepository } from "../domain/inventory-repository.js";
+import { toNumberStrict } from "../../../shared/db/decimal.js";
 import type {
   InventoryItem,
   NewInventoryItem,
   UpdateInventoryFields,
 } from "../domain/inventory-item.js";
-import { toNumberStrict } from "../../../shared/db/decimal.js";
+import type { InventoryRepository } from "../domain/inventory-repository.js";
 
 /**
  * ★ ORM 境界の実装（設計書 §3 ② / §18.2）。

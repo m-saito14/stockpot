@@ -1,15 +1,15 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { HTTPException } from "hono/http-exception";
+import { createAuthRoutes } from "./features/auth/presentation/routes.js";
+import { PrismaInventoryRepository } from "./features/inventory/infrastructure/prisma-inventory-repository.js";
+import { createInventoryRoutes } from "./features/inventory/presentation/routes.js";
+import { CookRecipe } from "./features/recipe/application/cook-recipe.js";
+import { GetCookPlan } from "./features/recipe/application/get-cook-plan.js";
+import { SuggestRecipes } from "./features/recipe/application/suggest-recipes.js";
+import { PrismaRecipeRepository } from "./features/recipe/infrastructure/prisma-recipe-repository.js";
+import { createRecipeRoutes } from "./features/recipe/presentation/routes.js";
 import { prisma } from "./shared/db/prisma.js";
 import { createRecipeGenerator } from "./shared/llm/model.js";
-import { PrismaInventoryRepository } from "./features/inventory/infrastructure/prisma-inventory-repository.js";
-import { PrismaRecipeRepository } from "./features/recipe/infrastructure/prisma-recipe-repository.js";
-import { SuggestRecipes } from "./features/recipe/application/suggest-recipes.js";
-import { GetCookPlan } from "./features/recipe/application/get-cook-plan.js";
-import { CookRecipe } from "./features/recipe/application/cook-recipe.js";
-import { createInventoryRoutes } from "./features/inventory/presentation/routes.js";
-import { createRecipeRoutes } from "./features/recipe/presentation/routes.js";
-import { createAuthRoutes } from "./features/auth/presentation/routes.js";
 
 /**
  * composition root（設計書 §3: DI は手書き配線で足りる）。

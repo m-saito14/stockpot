@@ -115,9 +115,25 @@ pnpm test:watch        # ウォッチ
 pnpm test:coverage     # カバレッジ（v8）
 pnpm typecheck         # 型チェック（turbo 経由で全パッケージ）
 pnpm build             # 全パッケージビルド
+
+# lint / format（Biome。lint と formatter を 1 ツールに統合）
+pnpm lint              # lint のみ
+pnpm format            # フォーマット（--write で自動修正）
+pnpm check             # lint + format + import 整列（チェックのみ）
+pnpm check:fix         # 上記を自動修正
+pnpm ci:quality        # CI 用（biome ci。書き込みなしで失敗検知）
 ```
 
 テスト命名規約: `*.int.test.ts` = 実 DB が必要なもの。それ以外は `*.test.ts`（CI の分割に使う / 設計書 §18.3）。
+
+## CI（GitHub Actions）
+
+`develop` / `main` への PR と push で `.github/workflows/ci.yml` が走る。2 ジョブ構成：
+
+1. **Lint & Format (Biome)** — `pnpm ci:quality`（lint・format・import 整列）
+2. **Typecheck & Test** — Prisma Client 生成 → `pnpm typecheck` → `pnpm test`
+
+統合テスト（`pnpm test:int`）は実 DB が要るため、DB サービス付きジョブとして今後追加する。
 
 ---
 

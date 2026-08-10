@@ -1,4 +1,4 @@
-import { getExpiryStatus, stepFor, type StorageType } from "@stockpot/shared";
+import { type StorageType, getExpiryStatus, stepFor } from "@stockpot/shared";
 
 /**
  * カンバン（メイン画面）のスケルトン（設計書 §13.1）。
@@ -16,15 +16,14 @@ const COLUMNS: { key: StorageType; label: string }[] = [
 export default function HomePage() {
   const today = new Date();
   // 表示確認用のダミー。実データは @stockpot/api-client 経由で取得する。
-  const badge = getExpiryStatus(
-    { expiryDate: today, expiryType: "CONSUME_BY" },
-    today,
-  );
+  const badge = getExpiryStatus({ expiryDate: today, expiryType: "CONSUME_BY" }, today);
 
   return (
     <main style={{ padding: 24 }}>
       <h1>stockpot</h1>
-      <p>在庫カンバン（骨組み）。期限バッジ例: {badge} / GRAM 刻み幅: {stepFor("GRAM")}</p>
+      <p>
+        在庫カンバン（骨組み）。期限バッジ例: {badge} / GRAM 刻み幅: {stepFor("GRAM")}
+      </p>
       <div style={{ display: "flex", gap: 16 }}>
         {COLUMNS.map((col) => (
           <section
@@ -33,7 +32,7 @@ export default function HomePage() {
           >
             <h2>{col.label}</h2>
             <p style={{ color: "#888" }}>（カード一覧）</p>
-            <button>+ 追加</button>
+            <button type="button">+ 追加</button>
           </section>
         ))}
       </div>

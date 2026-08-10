@@ -7,12 +7,12 @@ import {
 } from "@stockpot/shared";
 import type { AuthVariables } from "../../../shared/auth/middleware.js";
 import { authMiddleware } from "../../../shared/auth/middleware.js";
-import type { Recipe } from "../domain/recipe.js";
-import type { RecipeRepository } from "../domain/recipe-repository.js";
-import type { SuggestRecipes } from "../application/suggest-recipes.js";
-import type { GetCookPlan } from "../application/get-cook-plan.js";
 import type { CookRecipe } from "../application/cook-recipe.js";
 import { EmptyInventoryError, RecipeNotFoundError } from "../application/errors.js";
+import type { GetCookPlan } from "../application/get-cook-plan.js";
+import type { SuggestRecipes } from "../application/suggest-recipes.js";
+import type { RecipeRepository } from "../domain/recipe-repository.js";
+import type { Recipe } from "../domain/recipe.js";
 
 export interface RecipeDeps {
   repo: RecipeRepository;
@@ -202,7 +202,10 @@ export function createRecipeRoutes(deps: RecipeDeps) {
       path: "/{id}",
       operationId: "deleteRecipe",
       request: { params: z.object({ id: z.string() }) },
-      responses: { 204: { description: "削除完了" }, 404: { description: "見つからない" } },
+      responses: {
+        204: { description: "削除完了" },
+        404: { description: "見つからない" },
+      },
     }),
     async (c) => {
       const { id } = c.req.valid("param");

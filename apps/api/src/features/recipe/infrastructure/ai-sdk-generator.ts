@@ -1,10 +1,10 @@
-import { generateObject, type LanguageModel } from "ai";
 import { RecipeListSchema } from "@stockpot/shared";
-import type { NewRecipe } from "../domain/recipe.js";
+import { type LanguageModel, generateObject } from "ai";
 import type {
   GenerateRecipesParams,
   RecipeGenerator,
 } from "../domain/recipe-generator.js";
+import type { NewRecipe } from "../domain/recipe.js";
 import { buildPrompt } from "./prompt.js";
 import { toDomain } from "./to-domain.js";
 

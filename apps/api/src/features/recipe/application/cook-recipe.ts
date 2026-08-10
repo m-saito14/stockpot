@@ -1,8 +1,5 @@
 import type { Deduction } from "../domain/deduction.js";
-import type {
-  CookResult,
-  RecipeRepository,
-} from "../domain/recipe-repository.js";
+import type { CookResult, RecipeRepository } from "../domain/recipe-repository.js";
 import { RecipeNotFoundError } from "./errors.js";
 
 export interface CookRecipeCommand {
@@ -20,11 +17,7 @@ export class CookRecipe {
   constructor(private readonly recipes: RecipeRepository) {}
 
   async execute(cmd: CookRecipeCommand): Promise<CookResult> {
-    const result = await this.recipes.cook(
-      cmd.userId,
-      cmd.recipeId,
-      cmd.deductions,
-    );
+    const result = await this.recipes.cook(cmd.userId, cmd.recipeId, cmd.deductions);
     if (result === null) {
       throw new RecipeNotFoundError();
     }

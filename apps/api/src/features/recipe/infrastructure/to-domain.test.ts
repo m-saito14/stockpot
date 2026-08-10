@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest";
 import { RecipeListSchema } from "@stockpot/shared";
-import { toDomain } from "./to-domain.js";
+import { describe, expect, it } from "vitest";
 import fixture from "../__fixtures__/generated-recipe.json" with { type: "json" };
+import { toDomain } from "./to-domain.js";
 
 /**
  * 設計書 §18.5: LLM の出力「内容」はテストしない。マッピングのみをテストする。

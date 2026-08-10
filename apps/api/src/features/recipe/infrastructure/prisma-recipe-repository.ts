@@ -1,20 +1,20 @@
 import type {
-  PrismaClient,
   Prisma,
+  PrismaClient,
+  RecipeIngredient as PrismaIngredient,
   Recipe as PrismaRecipe,
   RecipeStep as PrismaStep,
-  RecipeIngredient as PrismaIngredient,
 } from "@prisma/client";
-import type { NewRecipe, Recipe } from "../domain/recipe.js";
+import { toNumber, toNumberStrict } from "../../../shared/db/decimal.js";
+import type { CookPlanIngredient } from "../domain/cook-plan.js";
+import type { Deduction } from "../domain/deduction.js";
+import { applyDeductions } from "../domain/deduction.js";
 import type {
   CookResult,
   RecipeQuery,
   RecipeRepository,
 } from "../domain/recipe-repository.js";
-import type { Deduction } from "../domain/deduction.js";
-import { applyDeductions } from "../domain/deduction.js";
-import type { CookPlanIngredient } from "../domain/cook-plan.js";
-import { toNumber, toNumberStrict } from "../../../shared/db/decimal.js";
+import type { NewRecipe, Recipe } from "../domain/recipe.js";
 
 type RowWithRelations = PrismaRecipe & {
   steps: PrismaStep[];
@@ -169,15 +169,12 @@ export class PrismaRecipeRepository implements RecipeRepository {
   }
 }
 
-function sortToOrderBy(
-  sort: RecipeQuery["sort"],
-): Prisma.RecipeOrderByWithRelationInput {
+function sortToOrderBy(sort: RecipeQuery["sort"]): Prisma.RecipeOrderByWithRelationInput {
   switch (sort) {
     case "cookedCount":
       return { cookedCount: "desc" };
     case "lastCookedAt":
       return { lastCookedAt: { sort: "desc", nulls: "last" } };
-    case "createdAt":
     default:
       return { createdAt: "desc" };
   }
