@@ -19,7 +19,9 @@
       "persistent": true
     },
     "build-storybook": {
-      "dependsOn": ["^build"],
+      // `^build` は付けない。Storybook は Vite で workspace パッケージの TS ソースを
+      // 直接ビルドするため、依存パッケージのビルド成果物を使わない。
+      // 付けると @stockpot/api#build（tsc）まで走り、Prisma Client 未生成で失敗する。
       "outputs": ["storybook-static/**"]
     },
     "storybook": {
