@@ -123,6 +123,24 @@ Next.js（App Router）+ Tailwind CSS v4。純粋な View として扱い、デ�
 - 認証は Firebase クライアント SDK。ブラウザに露出する公開設定のみ
   `NEXT_PUBLIC_FIREBASE_*` に設定する（秘密鍵はサーバー側の `FIREBASE_PRIVATE_KEY`）。
 
+### Storybook
+
+UI コンポーネントのカタログ。API や Firebase なしで見た目を確認できる。
+
+```bash
+pnpm storybook          # http://localhost:6006
+pnpm build-storybook    # 静的ビルド（apps/web/storybook-static）
+```
+
+- ビルダーは Vite（`@storybook/nextjs-vite`）。`next/link` `next/navigation` は
+  フレームワーク側が自動でモックする。
+- **ストーリーは実装にコロケーション**する（`foo.tsx` の隣に `foo.stories.tsx`）。
+  テストの方針（設計書 §18.1）と揃える。
+- React Query のプロバイダは `.storybook/preview.tsx` で全ストーリーに適用済み。
+  **API 通信はモックしていない**ので、± や ⭐️ などのミューテーションは実際には失敗する。
+  通信を伴う挙動まで確認したくなったら msw を足す。
+- サンプルデータは `src/lib/fixtures.ts`（Storybook 専用。アプリ本体から import しない）。
+
 ---
 
 ## よく使うコマンド
@@ -134,6 +152,8 @@ pnpm test:watch        # ウォッチ
 pnpm test:coverage     # カバレッジ（v8）
 pnpm typecheck         # 型チェック（turbo 経由で全パッケージ）
 pnpm build             # 全パッケージビルド
+pnpm storybook         # Storybook 起動（http://localhost:6006）
+pnpm build-storybook   # Storybook 静的ビルド
 
 # lint / format（Biome。lint と formatter を 1 ツールに統合）
 pnpm lint              # lint のみ
@@ -147,10 +167,11 @@ pnpm ci:quality        # CI 用（biome ci。書き込みなしで失敗検知�
 
 ## CI（GitHub Actions）
 
-`develop` / `main` への PR と push で `.github/workflows/ci.yml` が走る。2 ジョブ構成：
+`develop` / `main` への PR と push で `.github/workflows/ci.yml` が走る。3 ジョブ構成：
 
 1. **Lint & Format (Biome)** — `pnpm ci:quality`（lint・format・import 整列）
 2. **Typecheck & Test** — Prisma Client 生成 → `pnpm typecheck` → `pnpm test`
+3. **Build Storybook** — `pnpm build-storybook`（ストーリーが壊れていないかの検証）
 
 統合テスト（`pnpm test:int`）は実 DB が要るため、DB サービス付きジョブとして今後追加する。
 
