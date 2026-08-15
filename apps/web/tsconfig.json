@@ -6,12 +6,25 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noEmit": true,
+    // このアプリの .d.ts を参照する側は無いので宣言生成は不要。
+    // 有効なままだと Storybook の型（storybook/internal/* を経由する）で
+    // 「inferred type cannot be named」（TS2742）が出る。
+    "declaration": false,
+    "declarationMap": false,
     "allowJs": true,
     "incremental": true,
     "types": ["node"],
     "plugins": [{ "name": "next" }],
     "paths": { "@/*": ["./src/*"] }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    // `**/*` は先頭が `.` のディレクトリにマッチしないため明示する
+    ".storybook/**/*.ts",
+    ".storybook/**/*.tsx"
+  ],
   "exclude": ["node_modules"]
 }

@@ -39,6 +39,10 @@ pnpm typecheck         # 型チェック
 pnpm check             # lint + format + import 整列（Biome。--fix は check:fix）
 pnpm build             # ビルド
 
+# Storybook（apps/web の UI カタログ）
+pnpm storybook                             # 起動（port 6006）
+pnpm build-storybook                       # 静的ビルド（CI でも実行）
+
 # API（apps/api）
 pnpm --filter @stockpot/api dev            # 起動（port 8080）
 pnpm --filter @stockpot/api prisma:generate
@@ -123,6 +127,15 @@ presentation → application → domain ← infrastructure（domain のポート
 - 書かないテスト: Prisma 自体の動作 / 単純 CRUD の通過確認 / UI スナップショット / 網羅的バリデーション（Zod が保証）。
 
 着手優先順位: ① `shared` 純粋関数 → ② `cook-plan` の 3 分類 → ③ `cook-recipe` の減算トランザクション → ④ 認可。
+
+### Storybook（apps/web）
+
+- **ストーリーも実装にコロケーション**（`foo.tsx` の隣に `foo.stories.tsx`）。テストと同じ方針。
+- 設定は `apps/web/.storybook/`。React Query のプロバイダは `preview.tsx` で全ストーリーに適用済み。
+- **API はモックしていない。** 見た目と状態バリエーションの確認が目的で、ミューテーションは失敗する。
+  通信を伴う挙動が要るようになったら msw を足す。
+- サンプルデータは `apps/web/src/lib/fixtures.ts`（**アプリ本体から import しない**）。
+  期限バッジは `new Date()` 基準で判定されるため、固定日付ではなく `dateFromToday(n)` で組み立てる。
 
 ---
 
