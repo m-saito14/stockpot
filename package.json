@@ -5,7 +5,7 @@
   "description": "冷蔵庫の在庫をカンバンで管理し、在庫に基づいた AI レシピ提案を行う Web アプリ",
   "packageManager": "pnpm@9.15.9",
   "engines": {
-    "node": "^22.23.4 || ^24.22.1 || >=26.12.1"
+    "node": "^24.22.1 || >=26.12.1"
   },
   "scripts": {
     "build": "turbo run build",
