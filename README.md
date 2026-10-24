@@ -73,7 +73,7 @@ stockpot/
 
 ## セットアップ
 
-前提: Node.js 20+, pnpm 9+, Docker（ローカル PostgreSQL 用）。
+前提: Node.js 24.22.1+（`.nvmrc` 参照）, pnpm 9+, Docker（ローカル PostgreSQL 用）。
 
 ```bash
 # 1. 依存インストール
